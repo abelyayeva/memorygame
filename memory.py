@@ -95,7 +95,7 @@ def win() -> None:
         curr_time.grid(row=1, column=0, sticky='nsew')
         curr_time.config(anchor='center')
     if len(curr_records()['time']) > 1:
-        best_time = Label(new_frame, text=f'Лучшее время: {time_conv(curr_records()['time'][0])}', font=("Arial", 14),
+        best_time = Label(new_frame, text=f'Лучшее время: {time_conv(curr_records()["time"][0])}', font=("Arial", 14),
                           pady=20, background='paleturquoise', foreground='navy')
         best_time.grid(row=2, column=0, sticky='nsew')
         best_time.config(anchor='center')
@@ -104,7 +104,7 @@ def win() -> None:
         score.grid(row=3, column=0, sticky='nsew')
         score.config(anchor='center')
     if len(curr_records()['steps']) > 1:
-        best_score = Label(new_frame, text=f'Лучшее количество ходов: {curr_records()['steps'][0]}', font=("Arial", 14),
+        best_score = Label(new_frame, text=f'Лучшее количество ходов: {curr_records()["steps"][0]}', font=("Arial", 14),
                            pady=20, background='paleturquoise', foreground='navy')
         best_score.grid(row=4, column=0, sticky='nsew')
         best_score.config(anchor='center')
@@ -153,9 +153,9 @@ def rec_storage() -> None:
     s_text = ''
 
     for i in range(len(curr_records()['time'])):
-        t_text += f'{i + 1}. {time_conv(curr_records()['time'][i])}\n'
+        t_text += f'{i + 1}. {time_conv(curr_records()["time"][i])}\n'
     for j in range(len(curr_records()['steps'])):
-        s_text += f'{j + 1}. {curr_records()['steps'][j]}\n'
+        s_text += f'{j + 1}. {curr_records()["steps"][j]}\n'
 
     t_rec = Label(main_frame, text=t_text, justify='center', font=("Arial", 14), background='paleturquoise', foreground='navy')
     t_rec.grid(row=2, column=0, sticky='new')
@@ -295,7 +295,7 @@ def game(world: str) -> None:
                     )
 
                 if i == 1:
-                    lbl_text = f'ЛУЧШЕЕ ВРЕМЯ:\n{time_conv(curr_records()['time'][0])}'
+                    lbl_text = f'ЛУЧШЕЕ ВРЕМЯ:\n{time_conv(curr_records()["time"][0])}'
                     label = Label(
                         game_pole,
                         text=lbl_text,
@@ -429,37 +429,48 @@ def game(world: str) -> None:
         root.after(1500, lambda: label_2.config(text=''))
 
     def open_card(event: {widget}) -> None:
-        """Определяет события при переворачивании изображения."""
-        global num_opened_cards, first_opened, second_opened, list_closed_cards, list_found_pairs, \
-            num_steps, label_2, label_kmoves, game_pole, root, widget, sw
-        if event.widget.open:
-            return
-
         try:
-            if num_opened_cards == 0:
-                event.widget['image'] = event.widget.image
-                num_steps += 1
-                label_kmoves.config(text=f'Количество ходов: {num_steps}', font=('Arial', 12), background='paleturquoise', foreground='navy')
-                event.widget.open = True
-                num_opened_cards = 1
-                first_opened = event.widget
-                list_closed_cards.remove(first_opened)
+            """Определяет события при переворачивании изображения."""
+            global num_opened_cards, first_opened, second_opened, list_closed_cards, list_found_pairs, \
+                num_steps, label_2, label_kmoves, game_pole, root, widget, sw
+            if event.widget.open:
+                return
 
-            elif num_opened_cards == 1 and event.widget.open is False:
-                if event.widget == first_opened:
-                    return
-                event.widget.open = True
-                event.widget['image'] = event.widget.image
-                num_steps += 1
-                label_kmoves.config(text=f'Количество ходов: {num_steps}', font=('Arial', 12), background='paleturquoise', foreground='navy')
-                if event.widget.image == first_opened.image:
-                    second_opened = event.widget
-                    list_closed_cards.remove(second_opened)
-                    root.after(500, pair)
-                else:
-                    list_closed_cards.append(first_opened)
-                    root.after(500, not_pair)
-                num_opened_cards = 0
+            try:
+                if num_opened_cards == 0:
+                    event.widget['image'] = event.widget.image
+                    num_steps += 1
+                    label_kmoves.config(text=f'Количество ходов: {num_steps}', font=('Arial', 12), background='paleturquoise', foreground='navy')
+                    event.widget.open = True
+                    num_opened_cards = 1
+                    first_opened = event.widget
+                    list_closed_cards.remove(first_opened)
+
+                elif num_opened_cards == 1 and event.widget.open is False:
+                    def disable_left_click(duration_ms):
+                        root.unbind("<Button-1>")
+                        root.after(duration_ms, rebind_left_click)
+
+                    def rebind_left_click():
+                        root.bind("<Button-1>", open_card)
+                    disable_left_click(550)
+
+                    if event.widget == first_opened:
+                        return
+                    event.widget.open = True
+                    event.widget['image'] = event.widget.image
+                    num_steps += 1
+                    label_kmoves.config(text=f'Количество ходов: {num_steps}', font=('Arial', 12), background='paleturquoise', foreground='navy')
+                    if event.widget.image == first_opened.image:
+                        second_opened = event.widget
+                        list_closed_cards.remove(second_opened)
+                        root.after(500, pair)
+                    else:
+                        list_closed_cards.append(first_opened)
+                        root.after(500, not_pair)
+                    num_opened_cards = 0
+            except Exception:
+                pass
         except Exception:
             pass
 
@@ -533,10 +544,6 @@ def pause() -> None:
     pause_button = Button(root, text="ПАУЗА", background='paleturquoise', foreground='navy')
     pause_button.config(font=("Arial", 100, "bold"), command=lambda b=pause_button: [b.destroy(), sw.Start()])
     pause_button.place(relx=0, rely=0, relwidth=1, relheight=1)
-    pass
-
-
-def check() -> None:
     pass
 
 
