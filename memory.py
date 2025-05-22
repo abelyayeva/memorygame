@@ -113,7 +113,7 @@ def win() -> None:
     style.configure("usual.TButton", font=("Arial", 14))
     back = ttk.Button(new_frame, text="Назад", command=main_page, style="usual.TButton")
     back.grid(row=5, column=0, sticky='nsew')
-    back.config(anchor='center')
+    #back.config(anchor='center')
 
 
 def time_conv(full_sec: int) -> str:
@@ -428,9 +428,9 @@ def game(world: str) -> None:
         label_2.config(text='Не пара!', font=('Arial', 14), foreground='red', background='paleturquoise')
         root.after(1500, lambda: label_2.config(text=''))
 
-    def open_card(event: {widget}) -> None:
+    def open_card(event) -> None:
+        """Определяет события при переворачивании изображения."""
         try:
-            """Определяет события при переворачивании изображения."""
             global num_opened_cards, first_opened, second_opened, list_closed_cards, list_found_pairs, \
                 num_steps, label_2, label_kmoves, game_pole, root, widget, sw
             if event.widget.open:
@@ -516,7 +516,7 @@ class StopWatch(Frame):
         self.timestr.set('%02d:%02d:%02d' % (minutes, seconds, hseconds))
 
     def Start(self) -> None:
-        """Начинает оотсчет."""
+        """Начинает отсчет."""
         if not self._running:
             self._start = time.time() - self._elapsedtime
             self._update()
