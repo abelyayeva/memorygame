@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import ttk
-from IPython.display import display
 from PIL import ImageTk, Image
 import os
 import random
@@ -8,7 +7,8 @@ import time
 import textwrap
 
 
-def play():
+def play() -> None:
+    """Создает экран выбора вселенных."""
     for widget in root.winfo_children():
         widget.destroy()
     st = Label(text="Выберите вселенную:", font=("Arial", 14), background='paleturquoise', foreground='navy')
@@ -37,7 +37,8 @@ def play():
     back.pack(expand=True, fill=BOTH, padx=60, pady=5)
 
 
-def rule():
+def rule() -> None:
+    """Создает экран с правилами игры."""
     for widget in root.winfo_children():
         widget.destroy()
     text1 = 'Перед началом игры вам нужно выбрать вселенную, персонажи из которой будут представлены на карточках. После выбора начнется игра.'
@@ -62,7 +63,8 @@ def rule():
     back.pack(expand=True, fill=BOTH, padx=60, pady=60)
 
 
-def win():
+def win() -> None:
+    """Создает финальный экран."""
     for widget in root.winfo_children():
         widget.destroy()
     global num_steps, time_sec, record
@@ -114,13 +116,15 @@ def win():
     back.config(anchor='center')
 
 
-def time_conv(full_sec):
+def time_conv(full_sec: int) -> str:
+    """Конвертирует время в нужный формат."""
     minutes = int(full_sec / 60)
     seconds = int(full_sec % 60)
     return f"{minutes:02d}:{seconds:02d}"
 
 
-def rec_storage():
+def rec_storage() -> None:
+    """Создает экран с рекордами."""
     for widget in root.winfo_children():
         widget.destroy()
 
@@ -150,10 +154,8 @@ def rec_storage():
 
     for i in range(len(curr_records()['time'])):
         t_text += f'{i + 1}. {time_conv(curr_records()['time'][i])}\n'
-        # f'\n2. {time_conv(curr_records()['time'][1])}\n3. {time_conv(curr_records()['time'][2])}')
     for j in range(len(curr_records()['steps'])):
-        s_text += f'{i + 1}. {curr_records()['steps'][j]}\n'
-        # 2. {curr_records()['steps'][1]}\n3. {curr_records()['steps'][2]}'
+        s_text += f'{j + 1}. {curr_records()['steps'][j]}\n'
 
     t_rec = Label(main_frame, text=t_text, justify='center', font=("Arial", 14), background='paleturquoise', foreground='navy')
     t_rec.grid(row=2, column=0, sticky='new')
@@ -169,7 +171,8 @@ def rec_storage():
     back.grid(row=3, column=0, columnspan=2, sticky='nsew')
 
 
-def curr_records():
+def curr_records() -> dict:
+    """Создает файл, где записаны рекорды."""
     default = {'time': [0], 'steps': [0]}
     try:
         if not os.path.exists('records.txt') or os.stat('records.txt').st_size == 0:
@@ -180,15 +183,17 @@ def curr_records():
         with open('records.txt', 'r') as f:
             content = f.read()
             return eval(content) if content else default.copy()
-    except:
+    except ValueError:
         return default.copy()
 
 
-def out():
+def out() -> None:
+    """Закрывает окно."""
     root.destroy()
 
 
-def main_page():
+def main_page() -> None:
+    """Создает начальный экран."""
     for widget in root.winfo_children():
         widget.destroy()
 
@@ -207,8 +212,10 @@ def main_page():
     ex.pack(expand=True, fill=BOTH, padx=60, pady=20)
 
 
-def playing_field(world):
-    def count(number=3):
+def playing_field(world: str) -> None:
+    """Создает поле для обратного отсчета времени старта игры."""
+    def count(number=3) -> None:
+        """Создает обратный отсчет (фон и шрифт)."""
         for widget in root.winfo_children():
             widget.destroy()
         label = Label(root, text=f'{number}', font=("Arial", 100, "bold"), background='paleturquoise', foreground='navy')
@@ -221,7 +228,8 @@ def playing_field(world):
     root.after(0, count)
 
 
-def game(world):
+def game(world: str) -> None:
+    """Создает основной движок."""
     global num_opened_cards, list_closed_cards, first_opened, second_opened, \
         num_win, label_2, num_steps, label_kmoves, root, label_win, sw
 
@@ -304,6 +312,8 @@ def game(world):
                         sticky='nsew'
                     )
             else:
+                but_com = ""
+                but_text = ""
                 if i == 2:
                     but_text = 'ПАУЗА'
                     but_com = pause
@@ -327,9 +337,9 @@ def game(world):
                     sticky='nsew'
                 )
 
-    for l in list_closed_cards:
+    for y in list_closed_cards:
         k = random.choice(list_images)
-        l.image = k
+        y.image = k
         list_images.remove(k)
 
     second_opened = ''
@@ -339,16 +349,19 @@ def game(world):
 
     sw.Start()
 
-    def pair():
+    def pair() -> None:
+        """Определяет действия при нахождении пары."""
         global list_closed_cards, first_opened, second_opened, num_win, label_2, \
             num_opened_cards, num_steps, label_kmoves, sw
         label_2.config(text='Пара!', font=('Arial', 14), foreground='red', background='paleturquoise')
         root.after(1500, lambda: label_2.config(text=''))
 
-        def get_rgb(rgb):
+        def get_rgb(rgb: str) -> str:
+            """Выбирает цвет."""
             return "#%02x%02x%02x" % rgb
 
-        def closer():
+        def closer() -> None:
+            """Определяет то, что происходит, когда нашли одинаковые пары."""
             global first_opened, second_opened, label_win, sw
             first_opened.config(
                 image=para_image,
@@ -405,7 +418,8 @@ def game(world):
 
         root.after(100, closer)
 
-    def not_pair():
+    def not_pair() -> None:
+        """Определяет действия, когда не нашли пару."""
         global list_closed_cards, label_2, num_win, first_opened, second_opened, \
             num_opened_cards, num_steps, label_kmoves, game_pole, sw
         for i in list_closed_cards:
@@ -414,7 +428,8 @@ def game(world):
         label_2.config(text='Не пара!', font=('Arial', 14), foreground='red', background='paleturquoise')
         root.after(1500, lambda: label_2.config(text=''))
 
-    def open_card(event):
+    def open_card(event: {widget}) -> None:
+        """Определяет события при переворачивании изображения."""
         global num_opened_cards, first_opened, second_opened, list_closed_cards, list_found_pairs, \
             num_steps, label_2, label_kmoves, game_pole, root, widget, sw
         if event.widget.open:
@@ -452,7 +467,9 @@ def game(world):
 
 
 class StopWatch(Frame):
-    def __init__(self, parent=None, **kw):
+    """Создает секундомер."""
+    def __init__(self, parent=None, **kw) -> None:
+        """Задает начальные значения."""
         Frame.__init__(self, parent, kw)
         self._start = 0.0
         self._elapsedtime = 0.0
@@ -461,8 +478,9 @@ class StopWatch(Frame):
 
         self.makeWidgets()
 
-    def makeWidgets(self):
-        l = ttk.Label(
+    def makeWidgets(self) -> None:
+        """Создает виджеты."""
+        o = ttk.Label(
             self,
             textvariable=self.timestr,
             font=('Arial', 14),
@@ -470,40 +488,46 @@ class StopWatch(Frame):
             justify='center', background='moccasin', foreground='navy'
         )
         self._setTime(self._elapsedtime)
-        l.pack(fill=BOTH, expand=True)
+        o.pack(fill=BOTH, expand=True)
 
-    def _update(self):
+    def _update(self) -> None:
+        """Задает обновление времени."""
         self._elapsedtime = time.time() - self._start
         self._setTime(self._elapsedtime)
         self._setTime(self._elapsedtime)
         self._timer = self.after(50, self._update)
 
-    def _setTime(self, elap):
+    def _setTime(self, elap) -> None:
+        """Приводит время к нужному формату."""
         minutes = int(elap / 60)
         seconds = int(elap - minutes * 60.0)
         hseconds = int((elap - minutes * 60.0 - seconds) * 100)
         self.timestr.set('%02d:%02d:%02d' % (minutes, seconds, hseconds))
 
-    def Start(self):
+    def Start(self) -> None:
+        """Начинает оотсчет."""
         if not self._running:
             self._start = time.time() - self._elapsedtime
             self._update()
             self._running = 1
 
-    def Stop(self):
+    def Stop(self) -> None:
+        """Заканчивает работу секундомера."""
         if self._running:
             self.after_cancel(self._timer)
             self._elapsedtime = time.time() - self._start
             self._setTime(self._elapsedtime)
             self._running = 0
 
-    def Reset(self):
+    def Reset(self) -> None:
+        """Перезапускает секундомер."""
         self._start = time.time()
         self._elapsedtime = 0.0
         self._setTime(self._elapsedtime)
 
 
-def pause():
+def pause() -> None:
+    """Создает экран паузы на все игровое поле."""
     global sw, root
     sw.Stop()
     pause_button = Button(root, text="ПАУЗА", background='paleturquoise', foreground='navy')
@@ -512,7 +536,7 @@ def pause():
     pass
 
 
-def check():
+def check() -> None:
     pass
 
 
