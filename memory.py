@@ -11,7 +11,7 @@ import textwrap
 def play():
     for widget in root.winfo_children():
         widget.destroy()
-    st = Label(text="Выберите вселенную:", font=("Arial", 14))
+    st = Label(text="Выберите вселенную:", font=("Arial", 14), background='paleturquoise', foreground='navy')
     st.pack()
     style = ttk.Style()
     style.configure("usual.TButton", font=("Arial", 14))
@@ -41,21 +41,25 @@ def rule():
     for widget in root.winfo_children():
         widget.destroy()
     text1 = 'Перед началом игры вам нужно выбрать вселенную, персонажи из которой будут представлены на карточках. После выбора начнется игра.'
-    st1 = Label(text=textwrap.fill(text1, width=60), justify='center', pady=10, font=("Arial", 14))
+    st1 = Label(text=textwrap.fill(text1, width=60), justify='center', pady=10, font=("Arial", 14),
+                background='paleturquoise', foreground='navy')
     st1.pack()
     text2 = 'Перед вами будет поле с 16 карточками, перевернутыми картинками вниз. Открывайте карточки попарно и запоминайте их расположение. Если картинки на них совпадают, карточки уходят из игры, если нет, карточки снова перевернутся. Игра закончится, когда вы найдете все пары.'
-    st2 = Label(text=textwrap.fill(text2, width=60), justify='center', pady=10, font=("Arial", 14))
+    st2 = Label(text=textwrap.fill(text2, width=60), justify='center', pady=10, font=("Arial", 14),
+                background='paleturquoise', foreground='navy')
     st2.pack()
     text3 = 'Развивайте свою память и старайтесь закончить за минимальное время и как можно меньшее количество ходов!'
-    st3 = Label(text=textwrap.fill(text3, width=60), justify='center', pady=10, font=("Arial", 14))
+    st3 = Label(text=textwrap.fill(text3, width=60), justify='center', pady=10, font=("Arial", 14),
+                background='paleturquoise', foreground='navy')
     st3.pack()
     text4 = 'Желаем удачи!'
-    st4 = Label(text=textwrap.fill(text4, width=60), justify='center', pady=10, font=("Arial", 14))
+    st4 = Label(text=textwrap.fill(text4, width=60), justify='center', pady=10, font=("Arial", 14),
+                background='paleturquoise', foreground='navy')
     st4.pack()
     style = ttk.Style()
     style.configure("usual.TButton", font=("Arial", 14))
     back = ttk.Button(text="Назад", command=main_page, style="usual.TButton")
-    back.pack(expand=True, fill=BOTH, padx=60, pady=50)
+    back.pack(expand=True, fill=BOTH, padx=60, pady=60)
 
 
 def win():
@@ -63,7 +67,7 @@ def win():
         widget.destroy()
     global num_steps, time_sec, record
 
-    new_frame = Frame(root)
+    new_frame = Frame(root, background='paleturquoise')
     new_frame.pack(expand=True, fill=BOTH, padx=20, pady=20)
 
     new_frame.grid_columnconfigure(0, weight=1)
@@ -81,25 +85,25 @@ def win():
     else:
         congrat = 'Вы близки к цели!'
 
-    congrats = Label(new_frame, text=congrat, font=("Arial", 20), pady=20)
+    congrats = Label(new_frame, text=congrat, font=("Arial", 20), pady=20, background='paleturquoise', foreground='navy')
     congrats.grid(row=0, column=0, sticky='nsew')
     congrats.config(anchor='center')
     if record == 0 or len(curr_records()['time']) == 1:
-        curr_time = Label(new_frame, text=f"Время: {time_conv(time_sec)}", font=("Arial", 14), pady=20)
+        curr_time = Label(new_frame, text=f"Время: {time_conv(time_sec)}", font=("Arial", 14), pady=20, background='paleturquoise', foreground='navy')
         curr_time.grid(row=1, column=0, sticky='nsew')
         curr_time.config(anchor='center')
     if len(curr_records()['time']) > 1:
         best_time = Label(new_frame, text=f'Лучшее время: {time_conv(curr_records()['time'][0])}', font=("Arial", 14),
-                          pady=20)
+                          pady=20, background='paleturquoise', foreground='navy')
         best_time.grid(row=2, column=0, sticky='nsew')
         best_time.config(anchor='center')
     if record == 0 or len(curr_records()['steps']) == 1:
-        score = Label(new_frame, text=f'Количество ходов: {num_steps}', font=("Arial", 14), pady=20)
+        score = Label(new_frame, text=f'Количество ходов: {num_steps}', font=("Arial", 14), pady=20, background='paleturquoise', foreground='navy')
         score.grid(row=3, column=0, sticky='nsew')
         score.config(anchor='center')
     if len(curr_records()['steps']) > 1:
         best_score = Label(new_frame, text=f'Лучшее количество ходов: {curr_records()['steps'][0]}', font=("Arial", 14),
-                           pady=20)
+                           pady=20, background='paleturquoise', foreground='navy')
         best_score.grid(row=4, column=0, sticky='nsew')
         best_score.config(anchor='center')
 
@@ -120,7 +124,7 @@ def rec_storage():
     for widget in root.winfo_children():
         widget.destroy()
 
-    main_frame = Frame(root)
+    main_frame = Frame(root, background='paleturquoise')
     main_frame.pack(expand=True, fill=BOTH, padx=20, pady=20)
 
     main_frame.grid_columnconfigure(0, weight=1)
@@ -130,14 +134,14 @@ def rec_storage():
     main_frame.grid_rowconfigure(2, weight=3)
     main_frame.grid_rowconfigure(3, weight=1)
 
-    header = Label(main_frame, text='Мои рекорды', justify='center', font=("Arial", 14))
+    header = Label(main_frame, text='Мои рекорды', justify='center', font=("Arial", 14), background='paleturquoise', foreground='navy')
     header.grid(row=0, column=0, columnspan=2, sticky='nsew')
 
-    t_head = Label(main_frame, text='Время', justify='center', font=("Arial", 14))
+    t_head = Label(main_frame, text='Время', justify='center', font=("Arial", 14), background='paleturquoise', foreground='navy')
     t_head.grid(row=1, column=0, sticky='nsew')
     t_head.config(anchor='center')
 
-    s_head = Label(main_frame, text=f'Количество\nходов', justify='center', font=("Arial", 14))
+    s_head = Label(main_frame, text=f'Количество\nходов', justify='center', font=("Arial", 14), background='paleturquoise', foreground='navy')
     s_head.grid(row=1, column=1, sticky='nsew')
     s_head.config(anchor='center')
 
@@ -151,16 +155,16 @@ def rec_storage():
         s_text += f'{i + 1}. {curr_records()['steps'][j]}\n'
         # 2. {curr_records()['steps'][1]}\n3. {curr_records()['steps'][2]}'
 
-    t_rec = Label(main_frame, text=t_text, justify='center', font=("Arial", 14))
+    t_rec = Label(main_frame, text=t_text, justify='center', font=("Arial", 14), background='paleturquoise', foreground='navy')
     t_rec.grid(row=2, column=0, sticky='new')
     t_rec.config(anchor='center')
 
-    s_rec = Label(main_frame, text=s_text, justify='center', font=("Arial", 14))
+    s_rec = Label(main_frame, text=s_text, justify='center', font=("Arial", 14), background='paleturquoise', foreground='navy')
     s_rec.grid(row=2, column=1, sticky='new')
     s_rec.config(anchor='center')
 
     style = ttk.Style()
-    style.configure("usual.TButton", font=("Arial", 14))
+    style.configure("usual.TButton", font=("Arial", 14), background='paleturquoise', foreground='navy')
     back = ttk.Button(main_frame, text="Назад", command=main_page, style="usual.TButton")
     back.grid(row=3, column=0, columnspan=2, sticky='nsew')
 
@@ -188,10 +192,10 @@ def main_page():
     for widget in root.winfo_children():
         widget.destroy()
 
-    label = Label(text="Добро пожаловать в Memory!", font=("Arial", 14))
+    label = Label(text="Добро пожаловать в Memory!", font=("Arial", 14), background='paleturquoise', foreground='navy')
     label.pack()
     style = ttk.Style()
-    style.configure("usual.TButton", font=("Arial", 14))
+    style.configure("usual.TButton", font=("Arial", 14), foreground="dodgerblue")
     playing = ttk.Button(text="Играть", style="usual.TButton", command=play)
     playing.pack(expand=True, fill=BOTH, padx=60, pady=20)
     rules = ttk.Button(text="Правила игры", style="usual.TButton", command=rule)
@@ -207,7 +211,7 @@ def playing_field(world):
     def count(number=3):
         for widget in root.winfo_children():
             widget.destroy()
-        label = Label(root, text=f'{number}', font=("Arial", 100, "bold"))
+        label = Label(root, text=f'{number}', font=("Arial", 100, "bold"), background='paleturquoise', foreground='navy')
         label.place(relx=0.5, rely=0.5, anchor='center')
         if number > 0:
             root.after(1000, count, number - 1)
@@ -237,10 +241,10 @@ def game(world):
     num_opened_cards = 0
     num_steps = 0
     num_win = 0
-    label_kmoves = Label(text=f'Количество ходов: {num_steps}', font=('Arial', 14))
+    label_kmoves = Label(text=f'Количество ходов: {num_steps}', font=('Arial', 14), background='paleturquoise', foreground='navy')
     label_kmoves.pack(side=BOTTOM, pady=0.2)
 
-    game_pole = Frame(root)
+    game_pole = Frame(root, background='paleturquoise')
     game_pole.pack(expand=True, fill=BOTH, padx=10, pady=10)
 
     for i in range(4):
@@ -255,7 +259,7 @@ def game(world):
             button = Button(
                 game_pole,
                 image=button_image,
-                background="#667E91",
+                background="palegreen",
             )
             button.grid(
                 row=j,
@@ -287,7 +291,8 @@ def game(world):
                     label = Label(
                         game_pole,
                         text=lbl_text,
-                        background="#FFBBB9",
+                        background="moccasin",
+                        foreground='navy',
                         font=('Arial', 11)
                     )
                     label.grid(
@@ -308,8 +313,9 @@ def game(world):
                 button = Button(
                     game_pole,
                     text=but_text,
-                    background="#FFBBB9",
+                    background="moccasin",
                     font=('Arial', 12),
+                    foreground='navy',
                     command=but_com
                 )
                 button.grid(
@@ -328,7 +334,7 @@ def game(world):
 
     second_opened = ''
 
-    label_2 = Label(root, text='')
+    label_2 = Label(root, text='', background='paleturquoise')
     label_2.pack(side=TOP)
 
     sw.Start()
@@ -336,7 +342,7 @@ def game(world):
     def pair():
         global list_closed_cards, first_opened, second_opened, num_win, label_2, \
             num_opened_cards, num_steps, label_kmoves, sw
-        label_2.config(text='Пара!', font=('Arial', 14), foreground='red')
+        label_2.config(text='Пара!', font=('Arial', 14), foreground='red', background='paleturquoise')
         root.after(1500, lambda: label_2.config(text=''))
 
         def get_rgb(rgb):
@@ -405,7 +411,7 @@ def game(world):
         for i in list_closed_cards:
             i['image'] = button_image
             i.open = False
-        label_2.config(text='Не пара!', font=('Arial', 14), foreground='red')
+        label_2.config(text='Не пара!', font=('Arial', 14), foreground='red', background='paleturquoise')
         root.after(1500, lambda: label_2.config(text=''))
 
     def open_card(event):
@@ -418,7 +424,7 @@ def game(world):
             if num_opened_cards == 0:
                 event.widget['image'] = event.widget.image
                 num_steps += 1
-                label_kmoves.config(text=f'Количество ходов: {num_steps}', font=('Arial', 12))
+                label_kmoves.config(text=f'Количество ходов: {num_steps}', font=('Arial', 12), background='paleturquoise', foreground='navy')
                 event.widget.open = True
                 num_opened_cards = 1
                 first_opened = event.widget
@@ -430,7 +436,7 @@ def game(world):
                 event.widget.open = True
                 event.widget['image'] = event.widget.image
                 num_steps += 1
-                label_kmoves.config(text=f'Количество ходов: {num_steps}', font=('Arial', 12))
+                label_kmoves.config(text=f'Количество ходов: {num_steps}', font=('Arial', 12), background='paleturquoise', foreground='navy')
                 if event.widget.image == first_opened.image:
                     second_opened = event.widget
                     list_closed_cards.remove(second_opened)
@@ -461,7 +467,7 @@ class StopWatch(Frame):
             textvariable=self.timestr,
             font=('Arial', 14),
             anchor='center',
-            justify='center'
+            justify='center', background='moccasin', foreground='navy'
         )
         self._setTime(self._elapsedtime)
         l.pack(fill=BOTH, expand=True)
@@ -500,7 +506,7 @@ class StopWatch(Frame):
 def pause():
     global sw, root
     sw.Stop()
-    pause_button = Button(root, text="ПАУЗА")
+    pause_button = Button(root, text="ПАУЗА", background='paleturquoise', foreground='navy')
     pause_button.config(font=("Arial", 100, "bold"), command=lambda b=pause_button: [b.destroy(), sw.Start()])
     pause_button.place(relx=0, rely=0, relwidth=1, relheight=1)
     pass
@@ -513,5 +519,6 @@ def check():
 root = Tk()
 root.title("Memory")
 root.geometry("800x600+350+60")
+root.configure(bg="paleturquoise")
 main_page()
 root.mainloop()
