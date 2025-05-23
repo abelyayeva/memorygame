@@ -29,7 +29,7 @@ def play() -> None:
     universe_6.pack(expand=True, fill=BOTH, padx=60, pady=5)
     universe_7 = ttk.Button(text="Символы МФА", command=lambda: playing_field("sound"), style="usual.TButton")
     universe_7.pack(expand=True, fill=BOTH, padx=60, pady=5)
-    universe_8 = ttk.Button(text="Животные фиклят", command=lambda: playing_field("pet"), style="usual.TButton")
+    universe_8 = ttk.Button(text="Питомцы фиклят", command=lambda: playing_field("pet"), style="usual.TButton")
     universe_8.pack(expand=True, fill=BOTH, padx=60, pady=5)
     universe_9 = ttk.Button(text="Brainrot animals", command=lambda: playing_field("br"), style="usual.TButton")
     universe_9.pack(expand=True, fill=BOTH, padx=60, pady=5)
@@ -428,7 +428,7 @@ def game(world: str) -> None:
         label_2.config(text='Не пара!', font=('Arial', 14), foreground='red', background='paleturquoise')
         root.after(1500, lambda: label_2.config(text=''))
 
-    def open_card(event) -> None:
+    def open_card(event) -> None: # не разобрались с тайпингом
         """Определяет события при переворачивании изображения."""
         try:
             global num_opened_cards, first_opened, second_opened, list_closed_cards, list_found_pairs, \
@@ -460,7 +460,10 @@ def game(world: str) -> None:
                     event.widget.open = True
                     event.widget['image'] = event.widget.image
                     num_steps += 1
-                    label_kmoves.config(text=f'Количество ходов: {num_steps}', font=('Arial', 12), background='paleturquoise', foreground='navy')
+                    label_kmoves.config(
+                        text=f'Количество ходов: {num_steps}', font=('Arial', 12),
+                        background='paleturquoise', foreground='navy'
+                    )
                     if event.widget.image == first_opened.image:
                         second_opened = event.widget
                         list_closed_cards.remove(second_opened)
