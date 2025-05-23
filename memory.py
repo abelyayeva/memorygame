@@ -113,7 +113,6 @@ def win() -> None:
     style.configure("usual.TButton", font=("Arial", 14))
     back = ttk.Button(new_frame, text="Назад", command=main_page, style="usual.TButton")
     back.grid(row=5, column=0, sticky='nsew')
-    #back.config(anchor='center')
 
 
 def time_conv(full_sec: int) -> str:
